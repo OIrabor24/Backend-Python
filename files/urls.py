@@ -18,6 +18,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    #CRUD Create, Read, Update, Delete
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('files/', views.files, name='files'),
