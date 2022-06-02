@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-zm&jpl3u_n)(@0i=i@*iy0c0(v=(bg%1e8fi7!6@#q()4k_a(6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = False 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'files-env.eba-5xjnis9g.us-west-1.elasticbeanstalk.com' ] # elastic beanstalk url
 
 
 # Application definition
