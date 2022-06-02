@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect, render
+from files.forms import UploadForm
 from .models import File
 
 def index(request):
@@ -8,7 +9,7 @@ def index(request):
 
 def files(request): #list all
     data = File.objects.all()
-    return render(request, 'files/files.html', {'files': data})
+    return render(request, 'files/files.html', {'files': data, 'form': UploadForm})
 
 def file(request, file_id): # detail page
     f = File.objects.get(pk=file_id) 
@@ -38,3 +39,9 @@ def delete(request, file_id):
     if f:
         f.delete() # delete our object
     return redirect(files) 
+
+def upload(request):
+    form = UploadForm(request.POST, request.FILES) # 2 args( post and files, where files is where file is uploaded)
+    if form.is_valid(): #check if form is valid
+        form.save() #save if valid
+    return redirect(files) # redirect to a page
