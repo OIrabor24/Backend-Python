@@ -15,13 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import views
+from . import views, settings
+from django.conf.urls.static import static # allows us to serve static files
 
 urlpatterns = [
     #CRUD Create, Read, Update, Delete
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('files/', views.files, name='files'),
-    path('files/<int:file_id>', views.file, name='file')
+    path('files/<int:file_id>/', views.file, name='file'),
+    path('files/edit/<int:file_id>/', views.edit, name='edit'),
+    path('files/delete/<int:file_id>/', views.delete, name='delete')
 ]
- 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# allows us to serve static files
