@@ -15,19 +15,26 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import environ 
+env = environ.Env() # Initialise environment variables
+# reading .env file 
+environ.Env.read_env()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zm&jpl3u_n)(@0i=i@*iy0c0(v=(bg%1e8fi7!6@#q()4k_a(6'
+# SECRET_KEY = 'django-insecure-zm&jpl3u_n)(@0i=i@*iy0c0(v=(bg%1e8fi7!6@#q()4k_a(6'
+SECRET_KEY =env("SECRET_KEY")
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True 
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'files-env.eba-5xjnis9g.us-west-1.elasticbeanstalk.com' ] # elastic beanstalk url
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'files-env.eba-5xjnis9g.us-west-1.elasticbeanstalk.com'] # elastic beanstalk url
 
-
+#'172.31.15.92'
 # Application definition
 
 INSTALLED_APPS = [
@@ -74,13 +81,39 @@ WSGI_APPLICATION = 'files.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# DB_NAME = os.environ.get('RDS_DB_NAME') 
+# DB_USERNAME = os.environ.get('RDS_USERNAME') 
+# DB_PASSWORD = os.environ.get('RDS_PASSWORD') 
+# DB_HOST = os.environ.get('RDS_HOST') 
+
+
+# proper way to set up env variables with pip install environ & .env file
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('RDS_DB_NAME'),
+        'USER': env('RDS_USERNAME'),
+        'PASSWORD': env('RDS_PASSWORD'),
+        'HOST': env('RDS_HOST'),
     }
 }
 
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': os.environ['RDS_DB_NAME'],
+#             'USER': os.environ['RDS_USERNAME'],
+#             'PASSWORD': os.environ['RDS_PASSWORD'],
+#             'HOST': os.environ['RDS_HOST'],
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

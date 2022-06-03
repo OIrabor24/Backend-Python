@@ -4,6 +4,10 @@
 
 #custom
 /static 
+
+# .env
+.env
+/env
 ### Django ###
 *.log
 *.pot
