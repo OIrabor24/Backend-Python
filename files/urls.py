@@ -22,11 +22,17 @@ urlpatterns = [
     #CRUD Create, Read, Update, Delete
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('files/', views.files, name='files'),
-    path('files/<int:file_id>/', views.file, name='file'),
-    path('files/edit/<int:file_id>/', views.edit, name='edit'),
-    path('files/delete/<int:file_id>/', views.delete, name='delete'),
-    path('files/upload', views.upload, name='upload')
+    #rest api urls
+    path('api/files/', views.files, name='files')
+
+
+
+
+    # path('files/', views.files, name='files'),
+    # path('files/<int:file_id>/', views.file, name='file'),
+    # path('files/edit/<int:file_id>/', views.edit, name='edit'),
+    # path('files/delete/<int:file_id>/', views.delete, name='delete'),
+    # path('files/upload', views.upload, name='upload')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # allows us to serve static files

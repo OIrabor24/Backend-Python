@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'files',
+    'storages',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -149,7 +151,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/' commented out at 7:58pm
 STATIC_ROOT = 'static'
 
 # Default primary key field type
@@ -157,6 +159,32 @@ STATIC_ROOT = 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#media folder settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+#AWS S3 setup: 
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+AWS_STORAGE_BUCKET_NAME = 'files-backend-storage'
+AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com'
+AWS_S3_FILE_OVERWRITE = False
+# AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400','ContentDisposition': 'attachment'}
+
+AWS_LOCATION = 'static'
+
+AWS_QUERYSTRING_AUTH = False 
+AWS_S3_REGION_NAME = 'us-west-1'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_ADDRESSING_STYLE = 'virtual'
+
+#my settings:
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Creates media folder to save imagefield objects; added backslash 4/19!!
+MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, 'media')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+#media folder settings: caleb's settings
+# MEDIA_URL = AWS_S3_CUSTOM_DOMAIN + '/media/'
+# MEDIA_ROOT = AWS_S3_CUSTOM_DOMAIN
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
