@@ -16,7 +16,7 @@ def index(request):
     return render(request, 'files/index.html')
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def files(request): #list all #get=search put=update, post=save to db, delete=delete
     if request.method == 'GET':
         data = File.objects.all()
@@ -26,13 +26,15 @@ def files(request): #list all #get=search put=update, post=save to db, delete=de
     elif request.method == 'POST':
         serializer = FileSerializer(data=request.data)
         if serializer.is_valid():
+            settings.AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400',
+            'ContentDisposition': 'attachment; filename="' + request.FILES['file'].name +'"'}
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PATCH', 'DELETE'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def file(request, file_id):
     try:
         data = File.objects.get(pk=file_id)
