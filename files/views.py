@@ -48,7 +48,7 @@ def file(request, file_id):
         return Response({'file': serializer.data}) 
 
     elif request.method == 'PATCH':
-        serializer =FileSerializer(data, data=request.data, partial=True) #2nd arg is the data that is changed/updated to the db
+        serializer = FileSerializer(data, data=request.data, partial=True) #2nd arg is the data that is changed/updated to the db
         if serializer.is_valid():
             serializer.save() 
             return Response(serializer.data)
