@@ -30,7 +30,7 @@ SECRET_KEY =env("SECRET_KEY")
 #remember to change secret key value 6-2-22
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
+DEBUG = False 
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'files-env.eba-5xjnis9g.us-west-1.elasticbeanstalk.com'] # elastic beanstalk url
 
@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'storages',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,6 +61,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [ 
+    "http://localhost:3000", "http://files-frontend.s3-website-us-west-1.amazonaws.com",
+]
+
 
 ROOT_URLCONF = 'files.urls'
 

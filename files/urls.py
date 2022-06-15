@@ -29,6 +29,7 @@ urlpatterns = [
     #rest api urls
     path('api/files/', views.files, name='files'),
     path('api/file/<int:file_id>', views.file, name='file'), 
+    path('api/register/', views.register, name='register'), 
     ]
 
 
